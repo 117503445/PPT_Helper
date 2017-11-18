@@ -6,19 +6,18 @@
         xmlns:local="clr-namespace:PPT_Helper"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Topmost="True" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Background="#00000000">
-    <Grid>
+    <Grid x:Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-
-
-
-        <StackPanel HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="289" Margin="150,10,0,0" Grid.Row="1" Orientation="Horizontal">
-            <Image HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resource/Tools/Pen.png"/>
-            <Image HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resource/Tools/Mouse.png"/>
-        </StackPanel>
-        <StackPanel Margin="0,0,410,0" Orientation="Horizontal" Grid.Row="1">
+        <TextBlock x:Name="TbDebug" TextWrapping="Wrap" Text="TextBlock" Margin="10,19,109,211" Foreground="White"/>
+        <StackPanel Margin="0,0,28,0" Orientation="Horizontal" Grid.Row="1">
             <Button x:Name="BtnPrev" Height="50" Template="{DynamicResource ButtonControlTemplate1}" Cursor="Hand"  Click="BtnPrev_Click" Grid.Row="1" Margin="1,1,10,1" >
                 <Button.Resources>
                     <ControlTemplate x:Key="ButtonControlTemplate1" TargetType="{x:Type Button}">
@@ -61,6 +60,13 @@
                     </ControlTemplate>
                 </Button.Resources>
             </Button>
+        </StackPanel>
+        <StackPanel x:Name="StpTools" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="289" Margin="10,10,0,0" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Column="1">
+            <Image x:Name="ImgInk" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Unchecked/Pen.jpg" MouseDown="ImgInk_MouseDown"/>
+            <Image x:Name="ImgEraser" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Unchecked/Eraser.jpg" MouseDown="ImgEraser_MouseDown"/>
+            <Image x:Name="ImgMouse" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/checked/Mouse.jpg" MouseDown="ImgMouse_MouseDown"/>
+            <Image x:Name="ImgClose"  HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Close.jpg" MouseDown="ImgClose_MouseDown"/>
+            <Image x:Name="ImgSetting" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Setting.jpg" MouseDown="ImgSetting_MouseDown"/>
         </StackPanel>
     </Grid>
 </Window>

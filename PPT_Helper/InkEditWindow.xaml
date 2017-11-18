@@ -1,0 +1,21 @@
+﻿<Window x:Class="PPT_Helper.InkEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PPT_Helper"
+        mc:Ignorable="d"
+        Title="InkEditWindow" Height="137.142" Width="486" Closing="Window_Closing" Topmost="True" Activated="Window_Activated">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="71" VerticalAlignment="Top" Width="136" Margin="0,18,0,0">
+            <RadioButton x:Name="RdoRed" Content="红色" Click="RadioButton_Click" FontSize="15"/>
+            <RadioButton x:Name="RdoBlue"  Content="蓝色" Click="RadioButton_Click" IsChecked="True" FontSize="15" />
+            <RadioButton x:Name="RdoBlack" Content="黑色" Click="RadioButton_Click" FontSize="15"/>
+            <RadioButton x:Name="RdoWhite" Content="白色" Click="RadioButton_Click" FontSize="15"/>
+        </StackPanel>
+        <Grid Margin="197,29,159,17">
+            <Slider x:Name="Slider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" IsSnapToTickEnabled="True" Minimum="3" Thumb.DragCompleted="Slider_DragCompleted"/>
+            <TextBlock Margin="0,23,0,0" Text="{Binding Value, ElementName=Slider}"/>
+        </Grid>
+    </Grid>
+</Window>
