@@ -135,7 +135,6 @@ namespace PPT_Helper
             {
                 MessageBox.Show("已经是第一页了");
             }
-            TbDebug.Text = slide.SlideIndex.ToString();
             SwitchInk();
         }
         private void BtnNext_Click(object sender, RoutedEventArgs e)
@@ -161,8 +160,7 @@ namespace PPT_Helper
 
                 }
             }
-            TbDebug.Text = slide.SlideIndex.ToString();
-            SwitchInk();
+         SwitchInk();
         }
 
         private void SwitchInk()
