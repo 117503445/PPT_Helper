@@ -16,12 +16,20 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="StpTools" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="350" Margin="10,10,0,0" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Column="1">
+        <StackPanel x:Name="StpTools" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="350" Margin="10,10,0,0" Grid.Row="1" Orientation="Horizontal" Grid.Column="1">
             <Image x:Name="ImgInk" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Unchecked/Pen.jpg" MouseDown="ImgInk_MouseDown"/>
             <Image x:Name="ImgEraser" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Unchecked/Eraser.jpg" MouseDown="ImgEraser_MouseDown"/>
             <Image x:Name="ImgMouse" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/checked/Mouse.jpg" MouseDown="ImgMouse_MouseDown"/>
             <Image x:Name="ImgClose"  HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Close.jpg" MouseDown="ImgClose_MouseDown"/>
             <Image x:Name="ImgSetting" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Setting.jpg" MouseDown="ImgSetting_MouseDown"/>
+            <Button Content="前一页" Height="50" Width="50" Click="BtnPrev_Click"/>
+            <Button Content="后一页" Height="50" Width="50" Click="BtnNext_Click"/>
+        </StackPanel>
+        <StackPanel x:Name="StpRight" Height="50" VerticalAlignment="Top" Margin="205,10,0,0" Grid.Row="1" Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left" Width="100">
+            <Button Content="前一页" Height="50" Width="50" Click="BtnPrev_Click"/>
+            <Button Content="后一页" Height="50" Width="50" Click="BtnNext_Click"/>
+        </StackPanel>
+        <StackPanel x:Name="StpLeft" Height="50" VerticalAlignment="Top" Margin="124,10,0,0" Orientation="Horizontal" HorizontalAlignment="Left" Width="100" Grid.Row="1">
             <Button Content="前一页" Height="50" Width="50" Click="BtnPrev_Click"/>
             <Button Content="后一页" Height="50" Width="50" Click="BtnNext_Click"/>
         </StackPanel>

@@ -94,6 +94,7 @@ namespace PPT_Helper
             for (int i = 0; i < inkCanvas.Length; i++)
             {
                 inkCanvas[i] = new InkCanvas();
+               
             }
             foreach (var item in inkCanvas)
             {
@@ -102,11 +103,13 @@ namespace PPT_Helper
                 item.Background = (Brush)new BrushConverter().ConvertFrom("#02FFFFFF");
                 grid.Children.Add(item);
                 Grid.SetColumnSpan(item, 3);
-                Grid.SetRowSpan(item, 1);
+                Grid.SetRowSpan(item, 2);
                 item.DefaultDrawingAttributes = inkEditWindow.drawingAttributes;
                 item.StrokeCollected += Item_StrokeCollected;
             }
-
+                Panel.SetZIndex(StpTools, 1);//使工具栏置顶
+            Panel.SetZIndex(StpRight, 1);//使工具栏置顶
+            Panel.SetZIndex(StpLeft, 1);//使工具栏置顶
         }
 
         private void Item_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
