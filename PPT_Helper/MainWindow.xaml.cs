@@ -80,7 +80,7 @@ namespace PPT_Helper
                     // 在普通视图下这种方式可以获得当前选中的幻灯片对象
                     // 然而在阅读模式下，这种方式会出现异常
                     slide = slides[pptApplication.ActiveWindow.Selection.SlideRange.SlideNumber];
-                    lastslide = slide;
+                    //lastslide = slide;
                 }
                 catch
                 {
