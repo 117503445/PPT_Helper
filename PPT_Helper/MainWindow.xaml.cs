@@ -1,29 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Runtime.InteropServices;
-using PPt = Microsoft.Office.Interop.PowerPoint;
 using System.Windows.Threading;
-
+using PPt = Microsoft.Office.Interop.PowerPoint;
+using Library;
 namespace PPT_Helper
 {
+    enum DialogTask
+    {
+        None,
+        Exit,
+        Message,
+        NullPPt
+    }
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        DialogInventory<string> DialogInventory = new DialogInventory<string>();
+        DialogTask DialogTask = DialogTask.None;
         /// <summary>
         /// 定义PowerPoint应用程序对象
         /// </summary>
@@ -52,11 +61,50 @@ namespace PPT_Helper
         /// <summary>
         /// 每页PPT都有的INK
         /// </summary>
-        InkCanvas[] inkCanvas;
-        InkEditWindow inkEditWindow=new InkEditWindow();
+        StrokeCollection[] strokes;
+        InkEditWindow inkEditWindow = new InkEditWindow();
+        internal Edit_Community.MultiInkCanvasWithTool MultiInkCanvasWithTool;
+        private bool isHide = false;
+        public bool IsHide
+        {
+            get => isHide;
+            set
+            {
+                if (isHide != value)
+                {
+                    isHide = value;
+                    ImgHide.IsChecked = !value;
+                    if (value)
+                    {
+                        GridLeft.Visibility = Visibility.Hidden;
+                        GridRight.Visibility = Visibility.Hidden;
+                        GridExit.Visibility = Visibility.Hidden;
+                        MultiInkCanvasWithTool.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        GridLeft.Visibility = Visibility.Visible;
+                        GridRight.Visibility = Visibility.Visible;
+                        GridExit.Visibility = Visibility.Visible;
+                        MultiInkCanvasWithTool.Visibility = Visibility.Visible;
+                    }
+                }
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            MultiInkCanvasWithTool = new Edit_Community.MultiInkCanvasWithTool()
+            {
+                IsTransparentStyle = false,
+                InkMenuSelectIndex = 0
+            };
+            this.GridMain.Children.Add(MultiInkCanvasWithTool);
             try
             {
                 pptApplication = Marshal.GetActiveObject("PowerPoint.Application") as PPt.Application;
@@ -81,45 +129,39 @@ namespace PPT_Helper
                     // 然而在阅读模式下，这种方式会出现异常
                     slide = slides[pptApplication.ActiveWindow.Selection.SlideRange.SlideNumber];
                     //lastslide = slide;
+                    slideIndex = slide.SlideIndex;
                 }
                 catch
                 {
                     // 在阅读模式下出现异常时，通过下面的方式来获得当前选中的幻灯片对象
                     slide = pptApplication.SlideShowWindows[1].View.Slide;
+                    slideIndex = slide.SlideIndex;
                 }
-
             }
-
-            inkCanvas = new InkCanvas[slidesCount];
-            for (int i = 0; i < inkCanvas.Length; i++)
+            strokes = new StrokeCollection[slidesCount];
+            for (int i = 0; i < strokes.Length; i++)
             {
-                inkCanvas[i] = new InkCanvas();
-               
+                strokes[i] = new StrokeCollection();
             }
-            foreach (var item in inkCanvas)
+            SwitchInk();
+        }
+        private void SwitchInk()
+        {
+            MultiInkCanvasWithTool.Load(strokes[slide.SlideIndex - 1]);
+            LblLeft.Content = slide.SlideIndex + "/" + slidesCount;
+            LblRight.Content = slide.SlideIndex + "/" + slidesCount;
+        }
+        private void ImgPrev_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
             {
-                item.Visibility = Visibility.Hidden;
-                var bc = new BrushConverter();
-                item.Background = (Brush)new BrushConverter().ConvertFrom("#02FFFFFF");
-                grid.Children.Add(item);
-                Grid.SetColumnSpan(item, 3);
-                Grid.SetRowSpan(item, 2);
-                item.DefaultDrawingAttributes = inkEditWindow.drawingAttributes;
-                item.StrokeCollected += Item_StrokeCollected;
+                slideIndex = slide.SlideIndex - 1;
             }
-                Panel.SetZIndex(StpTools, 1);//使工具栏置顶
-            Panel.SetZIndex(StpRight, 1);//使工具栏置顶
-            Panel.SetZIndex(StpLeft, 1);//使工具栏置顶
-        }
-
-        private void Item_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
-        {
-            inkEditWindow.Hide();
-        }
-
-        private void BtnPrev_Click(object sender, RoutedEventArgs e)
-        {
-            slideIndex = slide.SlideIndex - 1;
+            catch
+            {
+                MessageBox.Show("PPt已关闭.", "Error");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
             if (slideIndex >= 1)
             {
                 try
@@ -136,16 +178,40 @@ namespace PPT_Helper
             }
             else
             {
-                MessageBox.Show("已经是第一页了");
+                slideIndex = 1;
+                if (sender.Equals(ImgPrevLeft))
+                {
+                    ShowMessageBox(new Point(80, 40), "已经是第一页了", DialogTask.Message, DialogX.Left, DialogY.Buttom);
+                }
+                else
+                {
+                    ShowMessageBox(new Point(220, 40), "已经是第一页了", DialogTask.Message, DialogX.Right, DialogY.Buttom);
+                }
             }
             SwitchInk();
         }
-        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        private void ImgNext_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            slideIndex = slide.SlideIndex + 1;
+            try
+            {
+                slideIndex = slide.SlideIndex + 1;
+            }
+            catch
+            {
+                MessageBox.Show("PPt已关闭.", "Error");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
             if (slideIndex > slidesCount)
             {
-                MessageBox.Show("已经是最后一页了");
+                if (sender.Equals(ImgNextLeft))
+                {
+                    ShowMessageBox(new Point(200, 40), "已经是最后一页了", DialogTask.Message, DialogX.Left, DialogY.Buttom);
+                }
+                else
+                {
+                    ShowMessageBox(new Point(80, 40), "已经是最后一页了", DialogTask.Message, DialogX.Right, DialogY.Buttom);
+                }
+                slideIndex = slidesCount;
             }
             else
             {
@@ -163,112 +229,40 @@ namespace PPT_Helper
 
                 }
             }
-         SwitchInk();
-        }
-
-        private void SwitchInk()
-        {
-            foreach (var item in inkCanvas)
-            {
-                item.Visibility = Visibility.Hidden;
-            }
-            inkCanvas[slide.SlideIndex - 1].Visibility = Visibility.Visible;
-        }
-
-
-        private void ImgInk_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (inkMode)
-            {
-                if (inkEditWindow.IsVisible)
-                {
-                    inkEditWindow.Hide();
-                }
-                else
-                {
-                    inkEditWindow.Show();
-                    inkEditWindow.Topmost = true;
-                }
-            }
-            foreach (var item in inkCanvas)
-            {
-                item.EditingMode = InkCanvasEditingMode.Ink;
-            }
-            eraserMode = false;
-            inkMode = true;
-            ImgMouse.Source = new BitmapImage(new Uri("/Resources/Tools/UnChecked/Mouse.jpg", UriKind.RelativeOrAbsolute));
-            ImgInk.Source = new BitmapImage(new Uri("/Resources/Tools/Checked/Pen.jpg", UriKind.RelativeOrAbsolute));
-            ImgEraser.Source= new BitmapImage(new Uri("/Resources/Tools/Unchecked/Eraser.jpg", UriKind.RelativeOrAbsolute));
             SwitchInk();
-
         }
-
-        private void ImgMouse_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImgExit_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            eraserMode = false;
-            inkMode = false;
-            ImgMouse.Source = new BitmapImage(new Uri("/Resources/Tools/Checked/Mouse.jpg", UriKind.RelativeOrAbsolute));
-            ImgInk.Source = new BitmapImage(new Uri("/Resources/Tools/UnChecked/Pen.jpg", UriKind.RelativeOrAbsolute));
-            ImgEraser.Source = new BitmapImage(new Uri("/Resources/Tools/Unchecked/Eraser.jpg", UriKind.RelativeOrAbsolute));
-            foreach (var item in inkCanvas)
-            {
-                item.Visibility = Visibility.Hidden;
-            }
-
+            ShowMessageBox(new Point(0, 80), "是否退出? 点[确定]立即退出.", DialogTask.Exit, DialogX.Right, DialogY.Buttom);
         }
-        /// <summary>
-        /// 是否在橡皮模式
-        /// </summary>
-        bool eraserMode = false;
-        bool inkMode = false;
-        private void ImgEraser_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImgHide_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            foreach (var item in inkCanvas)
-            {
-                item.EditingMode = InkCanvasEditingMode.EraseByStroke;
-            }
-            if (eraserMode)
-            {
-                if (MessageBox.Show("是否全部清理", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    inkCanvas[slide.SlideIndex - 1].Strokes.Clear();
-                }
-            }
-            else
-            {
-                ImgMouse.Source = new BitmapImage(new Uri("/Resources/Tools/UnChecked/Mouse.jpg", UriKind.RelativeOrAbsolute));
-                ImgInk.Source = new BitmapImage(new Uri("/Resources/Tools/UnChecked/Pen.jpg", UriKind.RelativeOrAbsolute));
-                ImgEraser.Source = new BitmapImage(new Uri("/Resources/Tools/checked/Eraser.jpg", UriKind.RelativeOrAbsolute));
-                eraserMode = true;
-                inkMode = false;
-            }
-
+            IsHide = !IsHide;
         }
-        private void ImgClose_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ShowMessageBox(Point point, string message, DialogTask dialogTask, DialogX dialogX,DialogY dialogY)
         {
-#if !DEBUG
-            if (MessageBox.Show("是否退出?", "退出", MessageBoxButton.YesNo) == MessageBoxResult.No)
-            {
-                return;
-            }
-#endif
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
+            this.DialogTask = dialogTask;
+            this.GridDialogBack.Visibility = Visibility.Visible;
+            this.DialogInventory.Show("dialog", new DialogInfo( new UMessageBox(message, new EventHandler(MessageBox_MouseUp)), point, dialogX,dialogY,DialogType.Dialog, this.GridDialog));
         }
-
-        private void ImgSetting_MouseDown(object sender, MouseButtonEventArgs e)
+        private void MessageBox_MouseUp(object sender, EventArgs e)
         {
-            if (inkEditWindow.IsVisible)
+            if (DialogTask == DialogTask.Exit)
             {
-                inkEditWindow.Hide();
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
-            else
-            {
-                inkEditWindow.Show();
-                inkEditWindow.Topmost = true;
-            }
-
+            HideMessageBox();
         }
-
-
+        private void HideMessageBox()
+        {
+            this.DialogTask = DialogTask.None;
+            this.GridDialogBack.Visibility = Visibility.Hidden;
+            this.DialogInventory.Hide("dialog");
+        }
+        private void GridDialogBack_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            HideMessageBox();
+        }
     }
+
 }

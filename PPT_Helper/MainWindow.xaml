@@ -4,34 +4,68 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PPT_Helper"
+        xmlns:libr="clr-namespace:Library;assembly=Library"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920" Topmost="True" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Background="#00000000" Icon="Resources/Tools/Close.jpg" >
-    <Grid x:Name="grid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="70"/>
-        </Grid.RowDefinitions>
-        <StackPanel x:Name="StpTools" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="350" Margin="10,10,0,0" Grid.Row="1" Orientation="Horizontal" Grid.Column="1">
-            <Image x:Name="ImgInk" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Unchecked/Pen.jpg" MouseDown="ImgInk_MouseDown"/>
-            <Image x:Name="ImgEraser" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Unchecked/Eraser.jpg" MouseDown="ImgEraser_MouseDown"/>
-            <Image x:Name="ImgMouse" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/checked/Mouse.jpg" MouseDown="ImgMouse_MouseDown"/>
-            <Image x:Name="ImgClose"  HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Close.jpg" MouseDown="ImgClose_MouseDown"/>
-            <Image x:Name="ImgSetting" HorizontalAlignment="Left" Height="50" Width="50" VerticalAlignment="Top" Source="/Resources/Tools/Setting.jpg" MouseDown="ImgSetting_MouseDown"/>
-            <Button Content="前一页" Height="50" Width="50" Click="BtnPrev_Click"/>
-            <Button Content="后一页" Height="50" Width="50" Click="BtnNext_Click"/>
-        </StackPanel>
-        <StackPanel x:Name="StpRight" Height="50" VerticalAlignment="Top" Margin="205,10,0,0" Grid.Row="1" Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left" Width="100">
-            <Button Content="前一页" Height="50" Width="50" Click="BtnPrev_Click"/>
-            <Button Content="后一页" Height="50" Width="50" Click="BtnNext_Click"/>
-        </StackPanel>
-        <StackPanel x:Name="StpLeft" Height="50" VerticalAlignment="Top" Margin="124,10,0,0" Orientation="Horizontal" HorizontalAlignment="Left" Width="100" Grid.Row="1">
-            <Button Content="前一页" Height="50" Width="50" Click="BtnPrev_Click"/>
-            <Button Content="后一页" Height="50" Width="50" Click="BtnNext_Click"/>
-        </StackPanel>
+        Title="MainWindow" Height="1080" Width="1920" Topmost="True" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Background="#00000000"  >
+    <Grid >
+        <!--MultiInkCanvasWithTool创建处.-->
+        <Grid x:Name="GridMain">
+
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <!--左边隐藏按钮-->
+                <Grid>
+                    <Border Background="#7F000000"/>
+                    <libr:ImgMenu x:Name="ImgHide" ImageSourceUnchecked="Assets/hide0.png" ImageSourceChecked="Assets/hide1.png" IsChecked="True" MouseUp="ImgHide_MouseUp"/>
+                </Grid>
+                <!--左边-->
+                <Grid x:Name="GridLeft" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="3" Background="#B2000000"/>
+                    <Label x:Name="LblLeft" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="1/12" Foreground="White" FontSize="18" FontWeight="Bold"/>
+                    <libr:ImgMenu x:Name="ImgPrevLeft" ImageSourceUnchecked="Assets/left.png" MouseUp="ImgPrev_MouseUp"/>
+                    <libr:ImgMenu x:Name="ImgNextLeft" Grid.Column="2" ImageSourceUnchecked="Assets/right.png" MouseUp="ImgNext_MouseUp"/>
+                </Grid>
+                <!--右边-->
+                <Grid x:Name="GridRight" Grid.Column="4" Visibility="Visible">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="3" Background="#B2000000"/>
+                    <Label x:Name="LblRight" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="1/12" Foreground="White" FontSize="18" FontWeight="Bold"/>
+                    <libr:ImgMenu x:Name="ImgPrevRight" ImageSourceUnchecked="Assets/left.png" MouseUp="ImgPrev_MouseUp"/>
+                    <libr:ImgMenu x:Name="ImgNextRight" Grid.Column="2" ImageSourceUnchecked="Assets/right.png" MouseUp="ImgNext_MouseUp"/>
+                </Grid>
+                <!--右边退出按钮-->
+                <Grid x:Name="GridExit" Grid.Column="6">
+                    <Border Background="#B2000000"/>
+                    <libr:ImgMenu ImageSourceUnchecked="Assets/exit.png" MouseUp="ImgExit_MouseUp"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid>
+            <Grid x:Name="GridDialogBack" Background="#01FFFFFF" Visibility="Hidden" MouseUp="GridDialogBack_MouseUp"/>
+            <Grid x:Name="GridDialog"/>
+        </Grid>
     </Grid>
 </Window>

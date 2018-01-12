@@ -37,6 +37,12 @@
     <ApplicationIcon>PPT_Helper.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Edit Community">
+      <HintPath>..\..\..\Project_ht c\Edit_Community\Edit_Community\bin\Release\Edit Community.exe</HintPath>
+    </Reference>
+    <Reference Include="Library">
+      <HintPath>..\..\..\Project_ht c\Edit_Community\Library\bin\Release\Library.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -107,27 +113,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Tools\Checked\Mouse.jpg" />
-    <Resource Include="Resources\Tools\Checked\Pen.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Tools\UnChecked\Mouse.jpg" />
-    <Resource Include="Resources\Tools\UnChecked\Pen.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Tools\Close.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Tools\Setting.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Tools\UnChecked\Eraser.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Tools\Checked\Eraser.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="PPT_Helper.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\exit.png" />
+    <Resource Include="Assets\hide0.png" />
+    <Resource Include="Assets\hide1.png" />
+    <Resource Include="Assets\left.png" />
+    <Resource Include="Assets\right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
