@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PPT_Helper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920" Topmost="True" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Background="#00000000" >
+        Title="MainWindow" Height="1080" Width="1920" Topmost="True" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Background="#00000000" Icon="Resources/Tools/Close.jpg" >
     <Grid x:Name="grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>

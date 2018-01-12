@@ -178,11 +178,24 @@ namespace PPT_Helper
 
         private void ImgInk_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (inkMode)
+            {
+                if (inkEditWindow.IsVisible)
+                {
+                    inkEditWindow.Hide();
+                }
+                else
+                {
+                    inkEditWindow.Show();
+                    inkEditWindow.Topmost = true;
+                }
+            }
             foreach (var item in inkCanvas)
             {
                 item.EditingMode = InkCanvasEditingMode.Ink;
             }
             eraserMode = false;
+            inkMode = true;
             ImgMouse.Source = new BitmapImage(new Uri("/Resources/Tools/UnChecked/Mouse.jpg", UriKind.RelativeOrAbsolute));
             ImgInk.Source = new BitmapImage(new Uri("/Resources/Tools/Checked/Pen.jpg", UriKind.RelativeOrAbsolute));
             ImgEraser.Source= new BitmapImage(new Uri("/Resources/Tools/Unchecked/Eraser.jpg", UriKind.RelativeOrAbsolute));
@@ -193,6 +206,7 @@ namespace PPT_Helper
         private void ImgMouse_MouseDown(object sender, MouseButtonEventArgs e)
         {
             eraserMode = false;
+            inkMode = false;
             ImgMouse.Source = new BitmapImage(new Uri("/Resources/Tools/Checked/Mouse.jpg", UriKind.RelativeOrAbsolute));
             ImgInk.Source = new BitmapImage(new Uri("/Resources/Tools/UnChecked/Pen.jpg", UriKind.RelativeOrAbsolute));
             ImgEraser.Source = new BitmapImage(new Uri("/Resources/Tools/Unchecked/Eraser.jpg", UriKind.RelativeOrAbsolute));
@@ -206,6 +220,7 @@ namespace PPT_Helper
         /// 是否在橡皮模式
         /// </summary>
         bool eraserMode = false;
+        bool inkMode = false;
         private void ImgEraser_MouseDown(object sender, MouseButtonEventArgs e)
         {
             foreach (var item in inkCanvas)
@@ -225,6 +240,7 @@ namespace PPT_Helper
                 ImgInk.Source = new BitmapImage(new Uri("/Resources/Tools/UnChecked/Pen.jpg", UriKind.RelativeOrAbsolute));
                 ImgEraser.Source = new BitmapImage(new Uri("/Resources/Tools/checked/Eraser.jpg", UriKind.RelativeOrAbsolute));
                 eraserMode = true;
+                inkMode = false;
             }
 
         }
