@@ -22,16 +22,5 @@ namespace WpfApp1.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection a {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["a"]));
-            }
-            set {
-                this["a"] = value;
-            }
-        }
     }
 }

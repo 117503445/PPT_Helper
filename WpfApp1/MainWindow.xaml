@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button x:Name="BtnOpen" Content="打开" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="388,32,0,0" Click="BtnOpen_Click"/>
-        <ListBox x:Name="LstMain" HorizontalAlignment="Left" Height="209" VerticalAlignment="Top" Width="340" Margin="50,75,0,0" MouseDoubleClick="LstMain_MouseDoubleClick"/>
+        Title="MainWindow" Height="287.39" Width="384.384" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ListBox x:Name="LstMain" HorizontalAlignment="Left" Width="301" MouseDoubleClick="LstMain_MouseDoubleClick" DockPanel.Dock="Left" Margin="0,0,0,0" />
 
-    </Grid>
+        <Button x:Name="BtnOpen" Content="打开"  VerticalAlignment="Top"  Click="BtnOpen_Click" DockPanel.Dock="Top"/>
+        <Button x:Name="BtnDelete" Content="Delete"  VerticalAlignment="Top" DockPanel.Dock="Top" Click="BtnDelete_Click"/>
+        <Button x:Name="BtnClear" Content="Clear"  VerticalAlignment="Top" DockPanel.Dock="Top" Click="BtnClear_Click"/>
+    </DockPanel>
 </Window>
