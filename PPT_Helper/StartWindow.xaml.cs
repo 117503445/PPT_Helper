@@ -14,23 +14,36 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
-namespace WpfApp1
+using System.Runtime.InteropServices;
+
+namespace PPT_Helper
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class StartWindow : Window
     {
         List<string> list = new List<string>();
-        public MainWindow()
+        /// <summary>
+        /// 定义PowerPoint应用程序对象
+        /// </summary>
+        Microsoft.Office.Interop.PowerPoint.Application pptApplication;
+        MainWindow MainWindow;
+        public StartWindow()
         {
             InitializeComponent();
-            if (true)
+            try
             {
-                //
+                pptApplication = Marshal.GetActiveObject("PowerPoint.Application") as Microsoft.Office.Interop.PowerPoint.Application;
+                MainWindow = new MainWindow();
+                MainWindow.Show();
+                this.Close();
             }
-            list = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "path.txt", Encoding.Default).ToList();
-            FlashLst();
+            catch
+            {
+                list = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "path.txt", Encoding.Default).ToList();
+                FlashLst();
+            }
         }
 
         private void BtnOpen_Click(object sender, RoutedEventArgs e)
@@ -38,7 +51,7 @@ namespace WpfApp1
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog
             {
                 Filter = "演示文稿|*.ppt;*.pptx",
-                InitialDirectory = @"H:\Project\PPT_Helper\WpfApp1\bin\Debug"
+                InitialDirectory = @"F:\文件\数学全品一轮复习\PPT听课手册配套课件"
             };
 
             if (ofd.ShowDialog() == true)
@@ -60,6 +73,9 @@ namespace WpfApp1
             }
             FlashLst();
             SaveList();
+            MainWindow = new MainWindow();
+            MainWindow.Show();
+            this.Close();
         }
 
         private void LstMain_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -71,6 +87,9 @@ namespace WpfApp1
             list[0] = temp;
             FlashLst();
             OpenPPT(path);
+            MainWindow = new MainWindow();
+            MainWindow.Show();
+            this.Close();
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
@@ -78,6 +97,7 @@ namespace WpfApp1
             list.Remove(LstMain.SelectedItem.ToString());
             FlashLst();
             SaveList();
+
         }
 
         private void BtnClear_Click(object sender, RoutedEventArgs e)
@@ -92,9 +112,10 @@ namespace WpfApp1
             cmd.StartInfo.FileName = PPT_exe_Path;
             cmd.StartInfo.Arguments = path;
             cmd.Start();
-
+            System.Threading.Thread.Sleep(5000);
         }
-        private void FlashLst() {
+        private void FlashLst()
+        {
             LstMain.Items.Clear();
             foreach (var item in list)
             {
