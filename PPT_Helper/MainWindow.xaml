@@ -4,14 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PPT_Helper"
-        xmlns:libr="clr-namespace:Library;assembly=Library"
+        xmlns:libr="clr-namespace:User.UI;assembly=HTLibrary"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920" Topmost="True" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="None" AllowsTransparency="True" Background="#00000000"  >
     <Grid >
         <!--MultiInkCanvasWithTool创建处.-->
-        <Grid x:Name="GridMain">
-
-        </Grid>
+        <Grid x:Name="GridMain"/>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -30,7 +28,7 @@
                 <!--左边隐藏按钮-->
                 <Grid>
                     <Border Background="#7F000000"/>
-                    <libr:ImgMenu x:Name="ImgHide" ImageSourceUnchecked="Assets/hide0.png" ImageSourceChecked="Assets/hide1.png" IsChecked="True" MouseUp="ImgHide_MouseUp"/>
+                    <libr:TriggerImage x:Name="ImgHide" ImageSourceUnchecked="Assets/hide0.png" ImageSourceChecked="Assets/hide1.png" IsChecked="True" MouseUp="ImgHide_MouseUp"/>
                 </Grid>
                 <!--左边-->
                 <Grid x:Name="GridLeft" Grid.Column="2">
@@ -41,8 +39,8 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="3" Background="#B2000000"/>
                     <Label x:Name="LblLeft" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="1/12" Foreground="White" FontSize="18" FontWeight="Bold"/>
-                    <libr:ImgMenu x:Name="ImgPrevLeft" ImageSourceUnchecked="Assets/left.png" MouseUp="ImgPrev_MouseUp"/>
-                    <libr:ImgMenu x:Name="ImgNextLeft" Grid.Column="2" ImageSourceUnchecked="Assets/right.png" MouseUp="ImgNext_MouseUp"/>
+                    <libr:TriggerImage x:Name="ImgPrevLeft" CanAutoCheck="False" ImageSourceUnchecked="Assets/left.png" MouseUp="ImgPrev_MouseUp"/>
+                    <libr:TriggerImage x:Name="ImgNextLeft" CanAutoCheck="False" Grid.Column="2" ImageSourceUnchecked="Assets/right.png" MouseUp="ImgNext_MouseUp"/>
                 </Grid>
                 <!--右边-->
                 <Grid x:Name="GridRight" Grid.Column="4" Visibility="Visible">
@@ -53,19 +51,21 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.ColumnSpan="3" Background="#B2000000"/>
                     <Label x:Name="LblRight" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="1/12" Foreground="White" FontSize="18" FontWeight="Bold"/>
-                    <libr:ImgMenu x:Name="ImgPrevRight" ImageSourceUnchecked="Assets/left.png" MouseUp="ImgPrev_MouseUp"/>
-                    <libr:ImgMenu x:Name="ImgNextRight" Grid.Column="2" ImageSourceUnchecked="Assets/right.png" MouseUp="ImgNext_MouseUp"/>
+                    <libr:TriggerImage x:Name="ImgPrevRight" CanAutoCheck="False" ImageSourceUnchecked="Assets/left.png" MouseUp="ImgPrev_MouseUp"/>
+                    <libr:TriggerImage x:Name="ImgNextRight" CanAutoCheck="False" Grid.Column="2" ImageSourceUnchecked="Assets/right.png" MouseUp="ImgNext_MouseUp"/>
                 </Grid>
                 <!--右边退出按钮-->
                 <Grid x:Name="GridExit" Grid.Column="6">
                     <Border Background="#B2000000"/>
-                    <libr:ImgMenu ImageSourceUnchecked="Assets/exit.png" MouseUp="ImgExit_MouseUp"/>
+                    <libr:TriggerImage CanAutoCheck="False" ImageSourceUnchecked="Assets/exit.png" MouseUp="ImgExit_MouseUp"/>
                 </Grid>
             </Grid>
         </Grid>
         <Grid>
             <Grid x:Name="GridDialogBack" Background="#01FFFFFF" Visibility="Hidden" MouseUp="GridDialogBack_MouseUp"/>
-            <Grid x:Name="GridDialog"/>
+            <Grid x:Name="GridDialog">
+                <local:UMessageBox x:Name="UMessageBox1" Message="123" Visibility="Collapsed" ChooseOk="UMessageBox1_ChooseOk"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

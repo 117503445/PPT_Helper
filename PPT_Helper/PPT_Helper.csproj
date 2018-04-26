@@ -38,10 +38,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Edit Community">
-      <HintPath>..\..\..\Project_ht c\Edit_Community\Edit_Community\bin\Release\Edit Community.exe</HintPath>
+      <HintPath>..\..\Edit_Community\Edit_Community\bin\Release\Edit Community.exe</HintPath>
     </Reference>
-    <Reference Include="Library">
-      <HintPath>..\..\..\Project_ht c\Edit_Community\Library\bin\Release\Library.dll</HintPath>
+    <Reference Include="HTLibrary">
+      <HintPath>..\..\..\Project_cht\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -69,6 +69,9 @@
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UMessageBox.xaml.cs">
+      <DependentUpon>UMessageBox.xaml</DependentUpon>
+    </Compile>
     <Page Include="InkEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,6 +94,10 @@
     <Page Include="StartWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

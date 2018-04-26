@@ -51,7 +51,7 @@ namespace PPT_Helper
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog
             {
                 Filter = "演示文稿|*.ppt;*.pptx",
-                InitialDirectory = @"F:\文件\数学全品一轮复习\PPT听课手册配套课件"
+                InitialDirectory = @"D:\文件\数学全品一轮复习\PPT听课手册配套课件"
             };
 
             if (ofd.ShowDialog() == true)
@@ -106,13 +106,13 @@ namespace PPT_Helper
             FlashLst();
             SaveList();
         }
-        private void OpenPPT(string path, string PPT_exe_Path = @"C:\Program Files (x86)\Microsoft Office\root\Office16\POWERPNT.EXE")
+        private void OpenPPT(string path, string PPT_exe_Path = @"C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE")
         {
             Process cmd = new Process();
             cmd.StartInfo.FileName = PPT_exe_Path;
             cmd.StartInfo.Arguments = path;
             cmd.Start();
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(8000);
         }
         private void FlashLst()
         {

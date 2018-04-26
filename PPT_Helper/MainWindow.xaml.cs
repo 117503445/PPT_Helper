@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using PPt = Microsoft.Office.Interop.PowerPoint;
-using Library;
+using User.UI;
 namespace PPT_Helper
 {
     enum DialogTask
@@ -29,7 +29,7 @@ namespace PPT_Helper
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow :System.Windows.Window
     {
         DialogInventory<string> DialogInventory = new DialogInventory<string>();
         DialogTask DialogTask = DialogTask.None;
@@ -243,15 +243,9 @@ namespace PPT_Helper
         {
             this.DialogTask = dialogTask;
             this.GridDialogBack.Visibility = Visibility.Visible;
-            this.DialogInventory.Show("dialog", new DialogInfo( new UMessageBox(message, new EventHandler(MessageBox_MouseUp)), point, dialogX,dialogY,DialogType.Dialog, this.GridDialog));
-        }
-        private void MessageBox_MouseUp(object sender, EventArgs e)
-        {
-            if (DialogTask == DialogTask.Exit)
-            {
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-            HideMessageBox();
+            UMessageBox1.Message = message;
+            UMessageBox1.Visibility = Visibility.Visible;
+            this.DialogInventory.Show("dialog", new DialogInfo(UMessageBox1, point, dialogX,dialogY,DialogType.Shadow, this.GridDialog));
         }
         private void HideMessageBox()
         {
@@ -261,6 +255,15 @@ namespace PPT_Helper
         }
         private void GridDialogBack_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            HideMessageBox();
+        }
+
+        private void UMessageBox1_ChooseOk(object sender, EventArgs e)
+        {
+            if (DialogTask == DialogTask.Exit)
+            {
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
             HideMessageBox();
         }
     }
